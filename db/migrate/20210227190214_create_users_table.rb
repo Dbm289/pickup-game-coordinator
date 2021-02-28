@@ -1,4 +1,4 @@
-class CreateUsersTable < ActiveRecord::Migration[5.2]
+class CreateUsersTable < ActiveRecord::Migration[5.1]
   def change
     create_table :users do |t|
       t.string :name
@@ -11,6 +11,7 @@ class CreateUsersTable < ActiveRecord::Migration[5.2]
       t.integer :team_id
 
       t.timestamps null: false
+    end
 
 
   end
