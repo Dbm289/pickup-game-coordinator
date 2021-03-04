@@ -1,5 +1,7 @@
 <p><%= @team.name %></p>
 
+<% if authorized_to_edit?(@team) %>
+
 <a href="/teams/<%= @team.id %>/edit">Edit Team</a>
 
 Delete Team
