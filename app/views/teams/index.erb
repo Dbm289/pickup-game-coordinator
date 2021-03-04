@@ -1,0 +1,13 @@
+<h2> List of All Teams </h2>
+
+<ul> 
+    <% @teams.each do |team| %>
+    <li>
+    <a href="/teams/<%=team.id %>">
+    <%= team.name %>
+    </a>
+    </li>
+
+<% end %>
+
+</ul>
