@@ -7,6 +7,7 @@ class ApplicationController < Sinatra::Base
     set :views, 'app/views'
     enable :sessions
     set :session_secret, "pickup_game_coordinator_app"
+    register Sinatra::Flash
   end
 
   get "/" do
@@ -30,7 +31,8 @@ class ApplicationController < Sinatra::Base
     end
 
     def authorized_to_edit?(team)
-      team.user == current_user
+      #binding.pry
+      team.users.include?(current_user)
     end
 
   end

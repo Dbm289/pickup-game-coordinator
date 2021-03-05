@@ -15,10 +15,18 @@
   </head>
   <body>
     <div class="nav">
+      <% if logged_in? %>
       <a href="/logout">Logout</a>
       <a href="/teams/new">Create a New Team</a>
       <a href="/teams">See All Teams</a>
+      <% end %>
     </div>  
+    <% if flash[:message] %>
+    <h3><%= flash[:message] %></h3>
+    <% end %>
+    <% if flash[:errors] %>
+      <h3 style="color: red;"><%= flash[:errors] %></h3>
+      <% end %>
     <div class="wrapper">
 
         <%= yield %>

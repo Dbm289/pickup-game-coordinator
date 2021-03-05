@@ -14,9 +14,12 @@ class TeamsController < ApplicationController
         end
         if params[:name] != ""
             @team = Team.create(params)
-            #likely need something else here
+            #binding.pry
+            flash[:message] = "Now you're ready to play!"
+            @team.user_teams.create(user_id: current_user.id)
             redirect "teams/#{@team.id}"
-        else 
+        else
+            flash[:message] = "Sorry, you can't do that!" 
             redirect '/teams/new'
         end
 
@@ -31,7 +34,7 @@ class TeamsController < ApplicationController
     get '/teams/:id/edit' do
         set_team
         if logged_in?
-            if @team.user == current_user
+            if authorized_to_edit?(@team)
                 erb :'/teams/edit'
             else
                 redirect "users/#{current_user.id}"
@@ -46,12 +49,11 @@ class TeamsController < ApplicationController
     patch 'teams/:id' do
         set_team
         if logged_in?
-            @team.update(name: params[:name])
-            redirect "/teams/#{@team.id}"
-            if @team.user == current_user
+            if @team.user == current_user && params[:name] != ""
                 @team.update(name: params[:name])
+                redirect "/teams/#{@team.id}"
             else
-                redirect "teams/#{team.id}"
+                redirect "teams/#{current_user.id}"
             end
         else
             redirect '/'
@@ -61,6 +63,13 @@ class TeamsController < ApplicationController
 
     def set_team
         @team = Team.find(params[:id])
+    end
+
+    delete '/teams/:id' do
+        set_team
+        @team.destroy
+        redirect '/teams'
+
     end
 
     get '/team/:id/join' do

@@ -3,7 +3,12 @@
 <% if authorized_to_edit?(@team) %>
 
 <a href="/teams/<%= @team.id %>/edit">Edit Team</a>
+<br><br><br>
 
-Delete Team
+<form class="" action="/teams/<%= @team.id %>" method="post">
+<input type="hidden" name="_method" value="DELETE">
+<input type="submit" name="" value="Delete Team">
+</form>
+<% end %>
 
-Team Rosters
+Team Rosters Join Team
