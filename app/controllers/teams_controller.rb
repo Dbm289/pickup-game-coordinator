@@ -4,14 +4,13 @@ class TeamsController < ApplicationController
     end
 
     get '/teams' do
+        redirect_if_not_logged_in
         @teams = Team.all
         erb :'/teams/index'
     end
 
     post '/teams' do
-        if !logged_in?
-            redirect '/'
-        end
+        redirect_if_not_logged_in
         if params[:name] != ""
             @team = Team.create(params)
             #binding.pry
@@ -19,13 +18,14 @@ class TeamsController < ApplicationController
             @team.user_teams.create(user_id: current_user.id)
             redirect "teams/#{@team.id}"
         else
-            flash[:message] = "Sorry, you can't do that!" 
+            flash[:errors] = "Sorry, you need a name!" 
             redirect '/teams/new'
         end
 
     end
 
     get '/teams/:id' do
+        redirect_if_not_logged_in
         @team = Team.find(params[:id])
         erb :'/teams/show'
 
@@ -33,14 +33,12 @@ class TeamsController < ApplicationController
 
     get '/teams/:id/edit' do
         set_team
-        if logged_in?
-            if authorized_to_edit?(@team)
-                erb :'/teams/edit'
-            else
-                redirect "users/#{current_user.id}"
-            end
+        redirect_if_not_logged_in
+            
+        if authorized_to_edit?(@team)
+            erb :'/teams/edit'
         else
-            redirect '/'
+            redirect "users/#{current_user.id}"
         end
 
 
@@ -48,16 +46,14 @@ class TeamsController < ApplicationController
 
     patch 'teams/:id' do
         set_team
-        if logged_in?
-            if @team.user == current_user && params[:name] != ""
-                @team.update(name: params[:name])
-                redirect "/teams/#{@team.id}"
-            else
-                redirect "teams/#{current_user.id}"
-            end
+        redirect_if_not_logged_in
+        if @team.user == current_user && params[:name] != ""
+            @team.update(name: params[:name])
+            redirect "/teams/#{@team.id}"
         else
-            redirect '/'
+            redirect "teams/#{current_user.id}"
         end
+       
 
     end
 
@@ -67,8 +63,16 @@ class TeamsController < ApplicationController
 
     delete '/teams/:id' do
         set_team
-        @team.destroy
-        redirect '/teams'
+        if authorized_to_edit?(@team)
+            @team.destroy
+            flash[:message] = "Team deleted"
+            redirect '/teams'
+        else
+            redirect '/teams'
+
+        end
+
+
 
     end
 
