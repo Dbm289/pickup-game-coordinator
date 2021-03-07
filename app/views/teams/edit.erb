@@ -1,7 +1,7 @@
 <h2>Edit <%= @team.name %>: </h2>
 
-<form action="/teams/<%= @team.id %>" method="post">
-    <input id="hidden" type="hidden" name="_method" value="patch">
+<form action="/teams/<%= @team.id %>" method="POST">
+    <input type="hidden" name="_method" value="patch">
     <label for="name">Want to change the team name? Add new name here:</label>
     <input type="text" name="name" value="">
     <input type="submit" name="" value="Change Team Name">

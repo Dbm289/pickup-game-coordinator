@@ -13,7 +13,7 @@ class TeamsController < ApplicationController
         redirect_if_not_logged_in
         if params[:name] != ""
             params["creator_id"] = current_user.id
-            binding.pry
+            #binding.pry
             @team = Team.create(params)
             #binding.pry
             flash[:message] = "Now you're ready to play!"
@@ -49,10 +49,13 @@ class TeamsController < ApplicationController
     patch '/teams/:id' do
         set_team
         redirect_if_not_logged_in
-        if @team.user == current_user && params[:name] != ""
+        #binding.pry
+        if  params[:name] != ""
+            #@team.user == current_user && 
+           
             #@team.name = password[:name]
            @team.update(name: params[:name])
-            redirect "/teams/#{@team.id}"
+            redirect "/teams"
         else
             redirect "/teams/#{current_user.id}"
         end

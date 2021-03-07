@@ -1,0 +1,25 @@
+<h2>Edit <%= @user.name %>'s Account: </h2>
+
+<form action="/users/<%= @user.id %>" method="POST">
+    <input type="hidden" name="_method" value="patch">
+    <label for="name">New name:</label>
+    <input type="text" name="name" value=""><br>
+   
+    <label for="email">New email:</label>
+    <input type="text" name="email" value=""><br>
+    
+    <label for="position">New position:</label>
+    <input type="text" name="position" value=""><br>
+   
+    <label for="alt_position">New alternate position:</label>
+    <input type="text" name="alt_position" value=""><br>
+    
+    <label for="skill_level">Adjust skill level:</label>
+    <input type="number" name="skill_level" min="1" max="10"><br>
+
+    <label for="coaching_skill_level">Coaching Skill Level: </label>
+    <input type="number" name="coaching_skill_level" min="1" max="10"><br> <br>
+    <input type="submit" name="" value="Adjust Account">
+
+
+</form>
