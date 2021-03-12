@@ -3,7 +3,10 @@
 <ul> 
     <% @roster.each do |player| %>
     <li>
-    <%= player.name %>
+    <%= player.name %> <form class="" action="/teams/<%= @team.id %>/roster" method="post">
+<input type="hidden" name="_method" value="patch">
+<input type="submit" name="" value="Delete Player">
+</form>
     </a>
     <br><br>
     </li>

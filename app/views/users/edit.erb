@@ -1,9 +1,9 @@
-<h2>Edit <%= @user.name %>'s Account: </h2>
+<h2>Edit <%= @current_user.name %>'s Account: </h2>
 
-<form action="/users/<%= @user.id %>" method="POST">
+<form action="/users/account" method="POST">
     <input type="hidden" name="_method" value="patch">
     <label for="name">New name:</label>
-    <input type="text" name="name" value=""><br>
+    <input type="text" name="name" value=<%=@current_user.name %>><br>
    
     <label for="email">New email:</label>
     <input type="text" name="email" value=""><br>

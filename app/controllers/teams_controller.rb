@@ -66,21 +66,7 @@ class TeamsController < ApplicationController
         @team = Team.find(params[:id])
     end
 
-    delete '/teams/:id' do
-        @teams = Team.all
-        set_team
-        if authorized_to_edit?(@team)
-            @team.destroy
-            flash[:message] = "Team deleted"
-            redirect '/teams'
-        else
-            redirect '/teams'
-
-        end
-
-
-
-    end
+    
 
     get '/teams/:id/join' do
         @team_id = params[:id]
@@ -109,11 +95,41 @@ class TeamsController < ApplicationController
         erb :'teams/roster'
     end
 
-    post 'teams/:id/roster' do
+delete '/teams/:id' do
+        @teams = Team.all
+        set_team
+        if authorized_to_edit?(@team)
+            @team.destroy
+            flash[:message] = "Team deleted"
+            redirect '/teams'
+        else
+            redirect '/teams'
+
+        end
+
+
+
+    end
+
+    patch '/teams/:id/roster' do
+        @user = User.find(params[:id])
+        #set_team
+        #if authorized_to_edit?(@team)
+            @user.destroy
+            flash[:message] = "Player removed"
+            redirect 'teams/:id/roster'
+        #else
+         #   redirect '/teams'
+        #end
+    end
+    #not deleting a team, making a chanf
+
+
+    #post 'teams/:id/roster' do
         
         #.users
 
-    end
+    #end
     
 
 end

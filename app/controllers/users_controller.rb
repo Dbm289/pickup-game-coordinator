@@ -56,31 +56,25 @@ class UsersController < ApplicationController
 
     end
 
-    get '/users/:id/edit' do 
-        @user = User.find_by_id(params[:id])
+    get '/users/account/edit' do 
+        current_user
         erb :'/users/edit'
       end
 
-    patch '/users/:id' do
-        @user = User.find_by(params[:id])
-        #binding.pry
+    patch '/users/account' do
+        current_user
+         #binding.pry
         if  params[:name] != "" && params[:email] != ""
-            #@team.user == current_user && 
-           
-            #@team.name = password[:name]
-           @user.name = params[:name]
-           @user.email = params[:email]
-           @user.position = params[:position]
-           @user.alt_position = params[:alt_position]
-           @user.skill_level = params[:skill_level]
-           @user.coaching_skill_level = params[:coaching_skill_level]
+           params.delete("_method")
+           @current_user.update(params)
+          
            flash[:message] = "Account updated"
            redirect "/users/account"
+        
         else
-            redirect "/"
+            redirect "/users/account/edit"
         end
 
     end
-
 
 end
